@@ -1,6 +1,9 @@
 package com.tuthill.dupecrawl;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,9 +15,11 @@ import java.util.Set;
 
 public class DupeCrawl {
 
+    private static final String dumpFile = "c:/Temp/dumpFileList.txt";
+
     public static void main(final String[] args) {
         final List<FileInfo> fileList = new ArrayList<>();
-        crawl(fileList, "/home/craig/craig.cavanaugh@gmail.com");
+        crawl(fileList, "\\\\usftwayne-eng\\AdeptRoot\\EngVault");
         System.out.println(fileList.size()+ " files found");
 
         System.out.println("Searching for duplicates");
@@ -25,13 +30,28 @@ public class DupeCrawl {
 
         long totalCount = 0;
 
-        for (DupeFile dupeFile : dupeFileList) {
-            System.out.println(dupeFile.toString());
-            totalCount += dupeFile.duplicatesList.size();
-        }
+        try (final BufferedWriter writer = new BufferedWriter(new FileWriter(dumpFile))) {
+            for (DupeFile dupeFile : dupeFileList) {
 
-        System.out.println(dupeFileList.size() + " duplicate sets found");
-        System.out.println(totalCount + " duplicate files found");
+                System.out.println(dupeFile.toString());
+                writer.write(dupeFile.toString());
+
+                totalCount += dupeFile.duplicatesList.size();
+            }
+
+            writer.write("\n");
+
+            System.out.println(fileList.size() + " Total files found");
+            writer.write(fileList.size() + "  Total files found" + "\n");
+
+            System.out.println(dupeFileList.size() + " duplicate sets found");
+            writer.write(dupeFileList.size() + " duplicate sets found" + "\n");
+
+            System.out.println(totalCount + " duplicate files found");
+            writer.write(totalCount + " duplicate files found" + "\n");
+        } catch (final IOException ioe) {
+            ioe.printStackTrace();
+        }
 
         System.exit(0);
     }
@@ -78,9 +98,9 @@ public class DupeCrawl {
                             e.printStackTrace();
                         }*/
 
-                        final String fileName = fileList.get(i).fileName;
+                        final String key = "...\\"  +fileList.get(i).adeptPath + "\\" +  fileList.get(i).fileName;
 
-                        final DupeFile dupeFile = dupeFileList.computeIfAbsent(fileName, s -> new DupeFile(fileName));
+                        final DupeFile dupeFile = dupeFileList.computeIfAbsent(key, s -> new DupeFile(key));
                         dupeFile.addDuplicate(fileList.get(i));
                         dupeFile.addDuplicate(fileInfo);
                     }
@@ -121,11 +141,14 @@ public class DupeCrawl {
                 builder.append(fileInfo.fullPath).append("\n");
             }
 
+            builder.append("\n");
+
             return builder.toString();
         }
     }
 
     private static class FileInfo implements Comparable<FileInfo> {
+        final String adeptPath;
         final String fullPath;
         final String fileName;
         final long fileSize;
@@ -134,6 +157,8 @@ public class DupeCrawl {
             fullPath = file.getAbsolutePath();
             fileName = file.getName();
             fileSize = file.length();
+
+            adeptPath = file.getParentFile().getName(); // up one directory Adept for comparison
         }
 
         @Override
@@ -146,8 +171,8 @@ public class DupeCrawl {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             FileInfo fileInfo = (FileInfo) o;
-            return fileSize == fileInfo.fileSize &&
-                           fileName.equals(fileInfo.fileName);
+
+            return fileSize == fileInfo.fileSize && fileName.equals(fileInfo.fileName) && adeptPath.equals(fileInfo.adeptPath);
         }
 
         @Override
