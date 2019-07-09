@@ -1,0 +1,17 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="BooleanMethodIsAlwaysInverted" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="DuplicatedCode" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="Duplicates" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="InconsistentResourceBundle" enabled="true" level="ERROR" enabled_by_default="true">
+      <option name="REPORT_INCONSISTENT_PROPERTIES_ENDS" value="false" />
+    </inspection_tool>
+    <inspection_tool class="JpaDataSourceORMInspection" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="LatexLineBreak" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="LatexMissingLabel" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="LatexTooLargeSection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="SqlNoDataSourceInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="StringBufferReplaceableByString" enabled="false" level="WARNING" enabled_by_default="false" />
+  </profile>
+</component>
