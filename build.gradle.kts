@@ -21,3 +21,7 @@ dependencies {
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_11
 }
+
+tasks.withType<Wrapper> {
+    gradleVersion = "5.5"
+}
