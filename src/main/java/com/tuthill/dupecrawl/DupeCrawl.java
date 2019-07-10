@@ -19,7 +19,7 @@ public class DupeCrawl {
 
     public static void main(final String[] args) {
         final List<FileInfo> fileList = new ArrayList<>();
-        crawl(fileList, "\\\\usftwayne-eng\\AdeptRoot\\EngVault");
+        crawl(fileList, "\\\\usftwayne-eng\\AdeptRoot\\EngVault-Clean");
         System.out.println(fileList.size()+ " files found");
 
         System.out.println("Searching for duplicates");
