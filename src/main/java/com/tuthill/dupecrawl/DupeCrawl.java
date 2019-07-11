@@ -73,14 +73,14 @@ public class DupeCrawl {
                     if (!Files.isSymbolicLink(file.toPath())) {
                         fileList.add(new FileInfo(file));
                     }
+
+                    if (fileList.size() % 1000 == 0) {
+                        System.out.println(fileList.size()+ " files found");
+                    }
                 }
             } catch (NullPointerException e) {
                 // swallow, posix non-readable file
             }
-        }
-
-        if (fileList.size() % 1000 == 0) {
-            System.out.println(fileList.size()+ " files found");
         }
     }
 
